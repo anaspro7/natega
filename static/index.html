@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>نتيجة الثانوية العامة 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0E2B25;
+    --paper: #FAF6EC;
+    --ink: #1C1B19;
+    --muted-ink: #6b6558;
+    --seal: #B23A2E;
+    --ok: #2F6D4F;
+    --warn: #C97F1D;
+    --fail: #B23A2E;
+    --dim: #7A7568;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family:'Tajawal', sans-serif;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(255,255,255,0.05), transparent),
+      radial-gradient(900px 500px at 110% 110%, rgba(255,255,255,0.04), transparent),
+      var(--bg);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:48px 16px;
+    color:var(--ink);
+  }
+
+  .page{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:100%;
+    max-width:440px;
+  }
+
+  .ticket{
+    position:relative;
+    width:100%;
+    background:var(--paper);
+    border-radius:18px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+    overflow:hidden;
+  }
+
+  .ticket-header{
+    padding:28px 30px 20px;
+    text-align:center;
+    border-bottom:0;
+  }
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:1.5px;
+    color:var(--dim);
+    font-weight:700;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Cairo', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .sub{
+    font-size:13px;
+    color:var(--muted-ink);
+  }
+
+  .ticket-body{
+    padding:6px 30px 26px;
+  }
+
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color:var(--muted-ink);
+    margin:16px 0 6px;
+  }
+
+  input{
+    width:100%;
+    padding:13px 14px;
+    font-size:16px;
+    border:2px solid #e6ded0;
+    border-radius:10px;
+    background:#fff;
+    color:var(--ink);
+    outline:none;
+    transition:border-color .15s;
+  }
+  input:focus{ border-color: var(--seal); }
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    letter-spacing:1px;
+  }
+
+  button{
+    width:100%;
+    margin-top:12px;
+    padding:13px;
+    font-size:15px;
+    font-weight:700;
+    font-family:'Cairo', sans-serif;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition: transform .1s, background .15s;
+  }
+  button:hover{ background:#000; }
+  button:active{ transform: scale(0.98); }
+
+  .or-divider{
+    text-align:center;
+    font-size:12px;
+    color:var(--dim);
+    margin:18px 0 -4px;
+    position:relative;
+  }
+  .or-divider::before, .or-divider::after{
+    content:'';
+    position:absolute;
+    top:50%;
+    width:38%;
+    height:1px;
+    background:#e6ded0;
+  }
+  .or-divider::before{ right:0; }
+  .or-divider::after{ left:0; }
+
+  .name-wrap{ position:relative; }
+  .suggestions{
+    position:absolute;
+    top:calc(100% + 2px);
+    right:0; left:0;
+    background:#fff;
+    border:2px solid #e6ded0;
+    border-radius:10px;
+    max-height:230px;
+    overflow-y:auto;
+    z-index:20;
+    box-shadow:0 12px 30px rgba(0,0,0,0.18);
+  }
+  .suggestions .opt{
+    padding:11px 14px;
+    font-size:14px;
+    cursor:pointer;
+    border-bottom:1px solid #f1ebdd;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .suggestions .opt:last-child{ border-bottom:none; }
+  .suggestions .opt:hover{ background:#faf6ec; }
+  .suggestions .opt .seat-no{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--dim);
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  /* perforation between the form and the result stub */
+  .perforation{
+    position:relative;
+    height:0;
+    border-top:2px dashed #d9cfba;
+    margin:0 0;
+  }
+  .perforation::before, .perforation::after{
+    content:'';
+    position:absolute;
+    top:-11px;
+    width:22px; height:22px;
+    background:var(--bg);
+    border-radius:50%;
+  }
+  .perforation::before{ right:-11px; }
+  .perforation::after{ left:-11px; }
+
+  .stub{
+    padding:26px 30px 30px;
+  }
+  .stub-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-bottom:10px;
+    color:var(--muted-ink);
+  }
+  .stub-row b{
+    color:var(--ink);
+    font-weight:700;
+    text-align:left;
+  }
+  .stub-row .seat-no{ font-family:'JetBrains Mono', monospace; }
+
+  .stamp-area{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin:18px 0 6px;
+  }
+  .stamp{
+    flex:0 0 auto;
+    width:88px; height:88px;
+    border-radius:50%;
+    border:3px solid var(--stamp-color, var(--ok));
+    color:var(--stamp-color, var(--ok));
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(-9deg);
+    font-family:'Cairo', sans-serif;
+    line-height:1.05;
+  }
+  .stamp .pct{ font-size:19px; font-weight:800; }
+  .stamp .pct-sym{ font-size:10px; font-weight:700; }
+
+  .status-line{ flex:1; }
+  .status-badge{
+    display:inline-block;
+    font-family:'Cairo', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:5px 12px;
+    border-radius:999px;
+    color:#fff;
+    background:var(--stamp-color, var(--ok));
+    margin-bottom:6px;
+  }
+  .degree-line{
+    font-size:13px;
+    color:var(--muted-ink);
+  }
+
+  .msg{ text-align:center; color:var(--seal); font-size:14px; margin-top:16px; }
+  .loading{ text-align:center; color:var(--muted-ink); font-size:14px; margin-top:16px; }
+
+  .credit{
+    text-align:center;
+    margin-top:22px;
+    font-size:12px;
+    letter-spacing:0.5px;
+    color:rgba(250,246,236,0.55);
+    font-family:'Cairo', sans-serif;
+  }
+  .credit b{
+    color:rgba(250,246,236,0.85);
+    font-weight:700;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    button, .stamp{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+<div class="ticket">
+  <div class="ticket-header">
+    <div class="eyebrow">الاستعلام عن النتيجة · نظام حديث</div>
+    <h1>نتيجة الثانوية العامة 2026</h1>
+    <div class="sub">أدخل رقم الجلوس أو اكتب الاسم للاستعلام</div>
+  </div>
+
+  <div class="ticket-body">
+    <label for="seat">رقم الجلوس</label>
+    <input id="seat" class="mono" placeholder="مثال: 2001970" inputmode="numeric" autocomplete="off">
+    <button id="seatBtn">عرض النتيجة</button>
+
+    <div class="or-divider">أو</div>
+
+    <label for="name">الاسم</label>
+    <div class="name-wrap">
+      <input id="name" placeholder="اكتب الاسم" autocomplete="off">
+      <div id="suggestions" class="suggestions" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div class="perforation"></div>
+
+  <div id="out"></div>
+</div>
+<div class="credit">صُنع بواسطة <b>Anas AbdElSalam</b></div>
+</div>
+
+<script>
+const STATUS = {
+  'ناجح دور أول':  { label: 'ناجح',        color: 'var(--ok)'   },
+  'دور ثان':       { label: 'دور ثانٍ',    color: 'var(--warn)' },
+  'راسب دور أول':  { label: 'راسب',        color: 'var(--fail)' },
+  'غياب كلى دور أول': { label: 'غياب كامل', color: 'var(--dim)'  }
+};
+
+function statusFor(caseDesc){
+  const key = (caseDesc || '').trim();
+  return STATUS[key] || { label: key || '—', color: 'var(--dim)' };
+}
+
+function renderResult(r){
+  const st = statusFor(r.case_desc);
+  const out = document.getElementById('out');
+  out.innerHTML = `
+    <div class="stub">
+      <div class="stub-row"><span>رقم الجلوس</span><b class="seat-no">${r.seating_no}</b></div>
+      <div class="stub-row"><span>الاسم</span><b>${r.arabic_name}</b></div>
+      <div class="stamp-area">
+        <div class="stamp" style="--stamp-color:${st.color}">
+          <div class="pct">${r.percentage}</div>
+          <div class="pct-sym">بالمئة</div>
+        </div>
+        <div class="status-line">
+          <div class="status-badge" style="--stamp-color:${st.color}">${st.label}</div>
+          <div class="degree-line">المجموع: ${r.total_degree} من ${r.max_degree}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderMsg(text){
+  document.getElementById('out').innerHTML = `<div class="msg">${text}</div>`;
+}
+function renderLoading(){
+  document.getElementById('out').innerHTML = `<div class="loading">جاري البحث...</div>`;
+}
+
+async function searchBySeat(){
+  const seat = document.getElementById('seat').value.trim();
+  hideSuggestions();
+  if (!seat) { renderMsg('اكتب رقم الجلوس'); return; }
+  renderLoading();
+  try {
+    const res = await fetch('/api/search?seating_no=' + encodeURIComponent(seat));
+    const data = await res.json();
+    if (!data.length) { renderMsg('مفيش نتيجة بالرقم ده'); return; }
+    renderResult(data[0]);
+  } catch (e) {
+    renderMsg('حصل خطأ، حاول تاني');
+  }
+}
+
+let debounceTimer = null;
+let lastResults = [];
+
+function hideSuggestions(){
+  const box = document.getElementById('suggestions');
+  box.style.display = 'none';
+  box.innerHTML = '';
+}
+
+async function onNameInput(){
+  const val = document.getElementById('name').value.trim();
+  clearTimeout(debounceTimer);
+  if (val.length < 2) { hideSuggestions(); return; }
+  debounceTimer = setTimeout(async () => {
+    try {
+      const res = await fetch('/api/search?name=' + encodeURIComponent(val));
+      lastResults = await res.json();
+      showSuggestions(lastResults);
+    } catch (e) { /* ignore */ }
+  }, 300);
+}
+
+function showSuggestions(rows){
+  const box = document.getElementById('suggestions');
+  if (!rows.length) { hideSuggestions(); return; }
+  box.innerHTML = rows.slice(0, 8).map((r, i) =>
+    `<div class="opt" data-i="${i}"><span>${r.arabic_name}</span><span class="seat-no">${r.seating_no}</span></div>`
+  ).join('');
+  box.style.display = 'block';
+  box.querySelectorAll('.opt').forEach(el => {
+    el.addEventListener('click', () => {
+      const r = lastResults[+el.dataset.i];
+      document.getElementById('name').value = r.arabic_name;
+      hideSuggestions();
+      renderResult(r);
+    });
+  });
+}
+
+document.getElementById('seatBtn').addEventListener('click', searchBySeat);
+document.getElementById('seat').addEventListener('keydown', e => { if (e.key === 'Enter') searchBySeat(); });
+document.getElementById('name').addEventListener('input', onNameInput);
+document.addEventListener('click', e => {
+  if (!e.target.closest('.name-wrap')) hideSuggestions();
+});
+</script>
+</body>
+</html>
