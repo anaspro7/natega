@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -35,7 +38,7 @@
     padding:48px 16px;
     color:var(--ink);
   }
-
+ 
   .page{
     display:flex;
     flex-direction:column;
@@ -43,7 +46,7 @@
     width:100%;
     max-width:440px;
   }
-
+ 
   .ticket{
     position:relative;
     width:100%;
@@ -52,11 +55,33 @@
     box-shadow: 0 30px 60px rgba(0,0,0,0.35);
     overflow:hidden;
   }
-
+ 
   .ticket-header{
-    padding:28px 30px 20px;
+    padding:26px 30px 20px;
     text-align:center;
     border-bottom:0;
+  }
+  .emblem{
+    width:46px; height:46px;
+    margin:0 auto 12px;
+    border-radius:50%;
+    border:2px solid var(--seal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--seal);
+    font-family:'Cairo', sans-serif;
+    font-weight:800;
+    font-size:13px;
+    position:relative;
+  }
+  .emblem::before{
+    content:'';
+    position:absolute;
+    inset:5px;
+    border:1px dashed var(--seal);
+    border-radius:50%;
+    opacity:0.5;
   }
   .eyebrow{
     font-size:11px;
@@ -77,11 +102,11 @@
     font-size:13px;
     color:var(--muted-ink);
   }
-
+ 
   .ticket-body{
     padding:6px 30px 26px;
   }
-
+ 
   label{
     display:block;
     font-size:12px;
@@ -89,7 +114,7 @@
     color:var(--muted-ink);
     margin:16px 0 6px;
   }
-
+ 
   input{
     width:100%;
     padding:13px 14px;
@@ -107,7 +132,7 @@
     font-weight:700;
     letter-spacing:1px;
   }
-
+ 
   button{
     width:100%;
     margin-top:12px;
@@ -124,7 +149,7 @@
   }
   button:hover{ background:#000; }
   button:active{ transform: scale(0.98); }
-
+ 
   .or-divider{
     text-align:center;
     font-size:12px;
@@ -142,28 +167,40 @@
   }
   .or-divider::before{ right:0; }
   .or-divider::after{ left:0; }
-
+ 
   .name-wrap{ position:relative; }
   .suggestions{
     position:absolute;
-    top:calc(100% + 2px);
+    bottom:calc(100% + 8px);
+    top:auto;
     right:0; left:0;
     background:#fff;
     border:2px solid #e6ded0;
-    border-radius:10px;
+    border-radius:12px;
     max-height:230px;
     overflow-y:auto;
-    z-index:20;
-    box-shadow:0 12px 30px rgba(0,0,0,0.18);
+    z-index:30;
+    box-shadow:0 -14px 34px rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.05);
+    opacity:0;
+    transform:translateY(6px);
+    pointer-events:none;
+    transition:opacity .15s ease, transform .15s ease;
+  }
+  .suggestions.show{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
   }
   .suggestions .opt{
-    padding:11px 14px;
+    padding:12px 14px;
     font-size:14px;
     cursor:pointer;
     border-bottom:1px solid #f1ebdd;
     display:flex;
     justify-content:space-between;
+    align-items:center;
     gap:10px;
+    transition:background .1s;
   }
   .suggestions .opt:last-child{ border-bottom:none; }
   .suggestions .opt:hover{ background:#faf6ec; }
@@ -173,7 +210,7 @@
     font-size:12px;
     white-space:nowrap;
   }
-
+ 
   /* perforation between the form and the result stub */
   .perforation{
     position:relative;
@@ -191,9 +228,14 @@
   }
   .perforation::before{ right:-11px; }
   .perforation::after{ left:-11px; }
-
+ 
   .stub{
     padding:26px 30px 30px;
+    animation: fadeUp .35s ease;
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
   }
   .stub-row{
     display:flex;
@@ -208,7 +250,7 @@
     text-align:left;
   }
   .stub-row .seat-no{ font-family:'JetBrains Mono', monospace; }
-
+ 
   .stamp-area{
     display:flex;
     align-items:center;
@@ -228,10 +270,15 @@
     transform:rotate(-9deg);
     font-family:'Cairo', sans-serif;
     line-height:1.05;
+    animation: popIn .3s ease .05s both;
+  }
+  @keyframes popIn{
+    from{ opacity:0; transform:rotate(-9deg) scale(0.7); }
+    to{ opacity:1; transform:rotate(-9deg) scale(1); }
   }
   .stamp .pct{ font-size:19px; font-weight:800; }
   .stamp .pct-sym{ font-size:10px; font-weight:700; }
-
+ 
   .status-line{ flex:1; }
   .status-badge{
     display:inline-block;
@@ -248,10 +295,10 @@
     font-size:13px;
     color:var(--muted-ink);
   }
-
+ 
   .msg{ text-align:center; color:var(--seal); font-size:14px; margin-top:16px; }
   .loading{ text-align:center; color:var(--muted-ink); font-size:14px; margin-top:16px; }
-
+ 
   .credit{
     text-align:center;
     margin-top:22px;
@@ -264,43 +311,44 @@
     color:rgba(250,246,236,0.85);
     font-weight:700;
   }
-
+ 
   @media (prefers-reduced-motion: reduce){
-    button, .stamp{ transition:none !important; }
+    button, .stamp, .stub, .suggestions{ animation:none !important; transition:none !important; }
   }
 </style>
 </head>
 <body>
-
+ 
 <div class="page">
 <div class="ticket">
   <div class="ticket-header">
+    <div class="emblem">٢٦</div>
     <div class="eyebrow">الاستعلام عن النتيجة · نظام حديث</div>
     <h1>نتيجة الثانوية العامة 2026</h1>
     <div class="sub">أدخل رقم الجلوس أو اكتب الاسم للاستعلام</div>
   </div>
-
+ 
   <div class="ticket-body">
     <label for="seat">رقم الجلوس</label>
     <input id="seat" class="mono" placeholder="مثال: 2001970" inputmode="numeric" autocomplete="off">
     <button id="seatBtn">عرض النتيجة</button>
-
+ 
     <div class="or-divider">أو</div>
-
+ 
     <label for="name">الاسم</label>
     <div class="name-wrap">
       <input id="name" placeholder="اكتب الاسم" autocomplete="off">
-      <div id="suggestions" class="suggestions" style="display:none;"></div>
+      <div id="suggestions" class="suggestions"></div>
     </div>
   </div>
-
+ 
   <div class="perforation"></div>
-
+ 
   <div id="out"></div>
 </div>
 <div class="credit">صُنع بواسطة <b>Anas AbdElSalam</b></div>
 </div>
-
+ 
 <script>
 const STATUS = {
   'ناجح دور أول':  { label: 'ناجح',        color: 'var(--ok)'   },
@@ -308,12 +356,12 @@ const STATUS = {
   'راسب دور أول':  { label: 'راسب',        color: 'var(--fail)' },
   'غياب كلى دور أول': { label: 'غياب كامل', color: 'var(--dim)'  }
 };
-
+ 
 function statusFor(caseDesc){
   const key = (caseDesc || '').trim();
   return STATUS[key] || { label: key || '—', color: 'var(--dim)' };
 }
-
+ 
 function renderResult(r){
   const st = statusFor(r.case_desc);
   const out = document.getElementById('out');
@@ -333,14 +381,14 @@ function renderResult(r){
       </div>
     </div>`;
 }
-
+ 
 function renderMsg(text){
   document.getElementById('out').innerHTML = `<div class="msg">${text}</div>`;
 }
 function renderLoading(){
   document.getElementById('out').innerHTML = `<div class="loading">جاري البحث...</div>`;
 }
-
+ 
 async function searchBySeat(){
   const seat = document.getElementById('seat').value.trim();
   hideSuggestions();
@@ -355,16 +403,15 @@ async function searchBySeat(){
     renderMsg('حصل خطأ، حاول تاني');
   }
 }
-
+ 
 let debounceTimer = null;
 let lastResults = [];
-
+ 
 function hideSuggestions(){
   const box = document.getElementById('suggestions');
-  box.style.display = 'none';
-  box.innerHTML = '';
+  box.classList.remove('show');
 }
-
+ 
 async function onNameInput(){
   const val = document.getElementById('name').value.trim();
   clearTimeout(debounceTimer);
@@ -377,14 +424,14 @@ async function onNameInput(){
     } catch (e) { /* ignore */ }
   }, 300);
 }
-
+ 
 function showSuggestions(rows){
   const box = document.getElementById('suggestions');
   if (!rows.length) { hideSuggestions(); return; }
   box.innerHTML = rows.slice(0, 8).map((r, i) =>
     `<div class="opt" data-i="${i}"><span>${r.arabic_name}</span><span class="seat-no">${r.seating_no}</span></div>`
   ).join('');
-  box.style.display = 'block';
+  box.classList.add('show');
   box.querySelectorAll('.opt').forEach(el => {
     el.addEventListener('click', () => {
       const r = lastResults[+el.dataset.i];
@@ -394,7 +441,7 @@ function showSuggestions(rows){
     });
   });
 }
-
+ 
 document.getElementById('seatBtn').addEventListener('click', searchBySeat);
 document.getElementById('seat').addEventListener('keydown', e => { if (e.key === 'Enter') searchBySeat(); });
 document.getElementById('name').addEventListener('input', onNameInput);
@@ -404,3 +451,4 @@ document.addEventListener('click', e => {
 </script>
 </body>
 </html>
+ 
