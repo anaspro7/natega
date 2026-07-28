@@ -6,7 +6,7 @@ Index · HTML
 <head>
 <meta charset="UTF-8">
 <title>نتيجة الثانوية العامة 2026</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@ Index · HTML
     --fail: #B23A2E;
     --dim: #7A7568;
   }
-  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  *{ box-sizing: border-box; }
   html,body{ height:100%; }
   body{
     margin:0;
@@ -57,9 +57,31 @@ Index · HTML
   }
  
   .ticket-header{
-    padding:28px 30px 20px;
+    padding:26px 30px 20px;
     text-align:center;
     border-bottom:0;
+  }
+  .emblem{
+    width:46px; height:46px;
+    margin:0 auto 12px;
+    border-radius:50%;
+    border:2px solid var(--seal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--seal);
+    font-family:'Cairo', sans-serif;
+    font-weight:800;
+    font-size:13px;
+    position:relative;
+  }
+  .emblem::before{
+    content:'';
+    position:absolute;
+    inset:5px;
+    border:1px dashed var(--seal);
+    border-radius:50%;
+    opacity:0.5;
   }
   .eyebrow{
     font-size:11px;
@@ -103,8 +125,6 @@ Index · HTML
     color:var(--ink);
     outline:none;
     transition:border-color .15s;
-    -webkit-appearance:none;
-    appearance:none;
   }
   input:focus{ border-color: var(--seal); }
   .mono{
@@ -116,7 +136,7 @@ Index · HTML
   button{
     width:100%;
     margin-top:12px;
-    padding:14px;
+    padding:13px;
     font-size:15px;
     font-weight:700;
     font-family:'Cairo', sans-serif;
@@ -126,7 +146,6 @@ Index · HTML
     border-radius:10px;
     cursor:pointer;
     transition: transform .1s, background .15s;
-    touch-action: manipulation;
   }
   button:hover{ background:#000; }
   button:active{ transform: scale(0.98); }
@@ -160,7 +179,6 @@ Index · HTML
     border-radius:12px;
     max-height:230px;
     overflow-y:auto;
-    -webkit-overflow-scrolling: touch;
     z-index:30;
     box-shadow:0 -14px 34px rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.05);
     opacity:0;
@@ -174,7 +192,7 @@ Index · HTML
     pointer-events:auto;
   }
   .suggestions .opt{
-    padding:13px 14px;
+    padding:12px 14px;
     font-size:14px;
     cursor:pointer;
     border-bottom:1px solid #f1ebdd;
@@ -225,7 +243,6 @@ Index · HTML
     font-size:14px;
     margin-bottom:10px;
     color:var(--muted-ink);
-    gap:10px;
   }
   .stub-row b{
     color:var(--ink);
@@ -239,7 +256,6 @@ Index · HTML
     align-items:center;
     gap:18px;
     margin:18px 0 6px;
-    flex-wrap:wrap;
   }
   .stamp{
     flex:0 0 auto;
@@ -263,7 +279,7 @@ Index · HTML
   .stamp .pct{ font-size:19px; font-weight:800; }
   .stamp .pct-sym{ font-size:10px; font-weight:700; }
  
-  .status-line{ flex:1; min-width:140px; }
+  .status-line{ flex:1; }
   .status-badge{
     display:inline-block;
     font-family:'Cairo', sans-serif;
@@ -280,8 +296,8 @@ Index · HTML
     color:var(--muted-ink);
   }
  
-  .msg{ text-align:center; color:var(--seal); font-size:14px; margin-top:16px; padding:0 20px 20px; }
-  .loading{ text-align:center; color:var(--muted-ink); font-size:14px; margin-top:16px; padding:0 20px 20px; }
+  .msg{ text-align:center; color:var(--seal); font-size:14px; margin-top:16px; }
+  .loading{ text-align:center; color:var(--muted-ink); font-size:14px; margin-top:16px; }
  
   .credit{
     text-align:center;
@@ -296,30 +312,6 @@ Index · HTML
     font-weight:700;
   }
  
-  /* Mobile refinements */
-  @media (max-width: 480px){
-    body{ padding:24px 12px; align-items:flex-start; }
-    .ticket{ border-radius:16px; }
-    .ticket-header{ padding:22px 20px 16px; }
-    h1{ font-size:19px; }
-    .sub{ font-size:12.5px; }
-    .ticket-body{ padding:4px 20px 22px; }
-    label{ margin:14px 0 6px; font-size:12px; }
-    input{ padding:12px 13px; font-size:16px; }
-    button{ padding:14px; font-size:14.5px; }
-    .stub{ padding:22px 20px 26px; }
-    .stamp{ width:76px; height:76px; }
-    .stamp .pct{ font-size:17px; }
-    .status-badge{ font-size:13px; }
-    .degree-line{ font-size:12.5px; }
-    .credit{ font-size:11px; }
-  }
- 
-  @media (max-width: 360px){
-    .stamp-area{ gap:14px; }
-    .stamp{ width:70px; height:70px; }
-  }
- 
   @media (prefers-reduced-motion: reduce){
     button, .stamp, .stub, .suggestions{ animation:none !important; transition:none !important; }
   }
@@ -330,6 +322,7 @@ Index · HTML
 <div class="page">
 <div class="ticket">
   <div class="ticket-header">
+    <div class="emblem">٢٦</div>
     <div class="eyebrow">الاستعلام عن النتيجة · نظام حديث</div>
     <h1>نتيجة الثانوية العامة 2026</h1>
     <div class="sub">أدخل رقم الجلوس أو اكتب الاسم للاستعلام</div>
@@ -337,14 +330,14 @@ Index · HTML
  
   <div class="ticket-body">
     <label for="seat">رقم الجلوس</label>
-    <input id="seat" class="mono" inputmode="numeric" autocomplete="off">
+    <input id="seat" class="mono" placeholder="" inputmode="numeric" autocomplete="off">
     <button id="seatBtn">عرض النتيجة</button>
  
     <div class="or-divider">أو</div>
  
     <label for="name">الاسم</label>
     <div class="name-wrap">
-      <input id="name" autocomplete="off">
+      <input id="name" placeholder="اكتب الاسم" autocomplete="off">
       <div id="suggestions" class="suggestions"></div>
     </div>
   </div>
